@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "@/components/general/layout";
 import Head from "next/head";
-import HeadNav from "@/components/services/head-nav";
+import HeadNav from "@/components/general/head-nav";
 import ReactHtmlParser from "html-react-parser";
 
 function wrapUntaggedTextWithP(node) {
