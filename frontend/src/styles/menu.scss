@@ -261,6 +261,7 @@
       margin: 0 auto;
       flex-direction: column;
       overflow-y: auto;
+      overflow-x: hidden;
       .foot {
         display: flex;
         padding-bottom: 20px;

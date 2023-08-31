@@ -1,60 +1,53 @@
-// Function to fetch data for all collections
 import fetchApiData from "@/utils/fetchApiData";
 import { transliterate as translit } from "transliteration";
 
-export const fetchAllData = async (collectionNames) => {
-  const dataPromises = collectionNames.map((collectionName) =>
-    fetchApiData(collectionName)
-  );
-
+export const fetchAllData = async (collectionNames: string[]) => {
   try {
-    // Wait for all data fetch promises to resolve
+    const dataPromises = collectionNames.map((collectionName) =>
+      fetchApiData(collectionName)
+    );
+
     const allData = await Promise.all(dataPromises);
 
-    // Create an object to store the data with collection names as keys
-    const dataObj: Record<string, Object> = {};
+    const dataObj: Record<string, any> = {};
     collectionNames.forEach((collectionName, index) => {
       dataObj[collectionName] = allData[index];
     });
 
-    // Set the state with the fetched data
-    //setAllCollectionsData(dataObj);
-
     return dataObj;
   } catch (error) {
     console.error(error);
+    throw error; // Rethrow the error to handle it higher up the call stack
   }
 };
 
 export const getCyrillicCollectionName = (
   englishName: string,
-  cyrillicToEnglish
+  cyrillicToEnglish: Record<string, string>
 ): string | null => {
   const englishToCyrillic: Record<string, string> = {};
 
-  // Reverse the key-value pairs to create englishToCyrillic object
   Object.keys(cyrillicToEnglish).forEach((cyrillicName) => {
-    const englishName = cyrillicToEnglish[cyrillicName];
-    englishToCyrillic[englishName] = cyrillicName;
+    const engName = cyrillicToEnglish[cyrillicName];
+    englishToCyrillic[engName] = cyrillicName;
   });
 
   return englishToCyrillic[englishName] || null;
 };
 
-export const transliterateRussianToEnglish = (text) => {
-  const cleanedText = text
-    .replace(/\(.*?®.*?\)/g, "")
-    .replace(/®/g, "")
-    .replace(/%20/g, "");
+export const transliterateRussianToEnglish = (text: string): string => {
+  const cleanedText = text.replace(/\(.*?®.*?\)/g, "").replace(/®|%20/g, "");
   const transliteratedText = translit(cleanedText);
-  const cleanedTransliteratedText = transliteratedText
-    .replace(/\s/g, "")
-    .toLowerCase(); // Remove all whitespace characters
+  const cleanedTransliteratedText = transliteratedText.replace(/\s/g, "").toLowerCase();
   return cleanedTransliteratedText;
 };
 
-export const handleNavigation = async (link:string, router) => {
-  await router.push(`/${link}`);
-
-  document.body.scrollTo(0, 0); // Scroll to the top of the page
+export const handleNavigation = async (link: string, router: any) => {
+  try {
+    await router.push(`/${link}`);
+    document.body.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top of the page
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };

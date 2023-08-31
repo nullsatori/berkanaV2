@@ -1,47 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { CSSTransition } from "react-transition-group";
-import fetchApiData from "@/utils/fetchApiData";
-import Grid from "@/components/szr/grid";
+import React, {useEffect, useState} from "react";
+import {CSSTransition} from "react-transition-group";
 import Link from "next/link";
-import { transliterate as translit } from "transliteration";
-import {
-  getCyrillicCollectionName,
-  fetchAllData,
-  transliterateRussianToEnglish,
-} from "@/utils/utils";
-import _debounce from 'lodash.debounce';
+import {AnimatePresence, motion} from "framer-motion";
+import {disableBodyScroll, enableBodyScroll} from "body-scroll-lock";
+import _debounce from "lodash.debounce";
+
 import Loader from "@/components/general/loader";
-import { AnimatePresence, motion } from "framer-motion";
-import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+import {fetchAllData, transliterateRussianToEnglish,} from "@/utils/utils";
+
+
+interface Item {
+  attributes: {
+    component: {
+      group?: string;
+      characteristic?: string;
+      FAO?: number;
+    };
+  };
+}
 
 const DataDisplaySeeds: React.FC = () => {
-  const _ = require('lodash');
+  const _ = require('lodash')
 
-  const [loading, setLoading] = useState(true);
-
-  const [dropdown1Open, setDropdown1Open] = useState(true);
-  const [dropdown2Open, setDropdown2Open] = useState(false);
-  const [dropdown3Open, setDropdown3Open] = useState(false);
-  const [dropdown4Open, setDropdown4Open] = useState(false);
-
-  const [selectedTagsForDropdown1, setSelectedTagsForDropdown1] = useState<
-    string[]
-  >([]);
-  const [selectedTagsForDropdown2, setSelectedTagsForDropdown2] = useState<
-    string[]
-  >([]);
-  const [selectedTagsForDropdown3, setSelectedTagsForDropdown3] = useState<
-    string[]
-  >([]);
-  const [selectedTagsForDropdown4, setSelectedTagsForDropdown4] = useState<
-    string[]
-  >([]);
-
-  const [isGridActive, setIsGridActive] = useState(false);
-  const [isFilterMenuActive, setIsFilterMenuActive] = useState(false);
-  const [viewportWidth, setViewportWidth] = useState<number | null>(null);
-  const [isSticky, setIsSticky] = useState(false);
-  const [originalPosition, setOriginalPosition] = useState(undefined);
   const collectionNames = [
     "syngenta-podsolnechniks",
     "lidea-podsolnechniks",
@@ -56,7 +36,7 @@ const DataDisplaySeeds: React.FC = () => {
     // Add other collection names as needed
   ];
 
-  const dropdownData = {
+  const dropdownData: Record<string, string[]> = {
     dropdown1: [
       "Очень ранний",
       "Ранний",
@@ -88,44 +68,54 @@ const DataDisplaySeeds: React.FC = () => {
     ],
     // Add other dropdowns with their tags here
   };
-  const cyrillicToEnglish = {
-    "Агрохимикаты, микроэлементы": "agrohimikaty-mikroelementies",
-    "Адьюванты, клеи": "adyuvanty-kleis",
-    Биопрепараты: "biopreparaties",
-    "Биофунгициды, иммуномодуляторы": "biofungiczidy-immunomodulyatories",
-    Гербициды: "gerbiczidies",
-    Десиканты: "desikanties",
-    "Инсектицидные протравители семян": "insekticzidnye-protraviteli-semyans",
-    Инсектициды: "insekticzidies",
-    Макроудобрения: "makroudobreniyas",
-    "Протравители семян": "fungiczidnyj-protravitel-semyans",
-    "Регуляторы, стимуляторы роста": "regulyatory-stimulyatory-rostas",
-    Родентициды: "rodenticzidies",
-    Фумиганты: "fumiganties",
-    Фунгициды: "fungiczidies",
-    // Add other collection names as needed
-  };
+
+
+  const [loading, setLoading] = useState(true);
+
+  const [dropdown1Open, setDropdown1Open] = useState(true);
+  const [dropdown2Open, setDropdown2Open] = useState(false);
+  const [dropdown3Open, setDropdown3Open] = useState(false);
+  const [dropdown4Open, setDropdown4Open] = useState(false);
+
+  const [selectedTagsForDropdown1, setSelectedTagsForDropdown1] = useState<
+    string[]
+  >([]);
+  const [selectedTagsForDropdown2, setSelectedTagsForDropdown2] = useState<
+    string[]
+  >([]);
+  const [selectedTagsForDropdown3, setSelectedTagsForDropdown3] = useState<
+    string[]
+  >([]);
+  const [selectedTagsForDropdown4, setSelectedTagsForDropdown4] = useState<
+    string[]
+  >([]);
+
+  const [isGridActive, setIsGridActive] = useState(false);
+  const [isFilterMenuActive, setIsFilterMenuActive] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState<number | null>(null);
+  const [originalPosition, setOriginalPosition] = useState<number | undefined>(undefined);
 
   // Define a state object to hold data for all collections
-  const [allCollectionsData, setAllCollectionsData] = useState<
-    Record<string, DataItem>
-  >({});
+  const [allCollectionsData, setAllCollectionsData] = useState<Record<string, object>>({});
 
-  const getEnglishCollectionName = (cyrillicName: string): string | null => {
-    return cyrillicToEnglish[cyrillicName] || null;
-  };
 
   // Fetch data for all collections on component mount
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchAllData(collectionNames);
-      setAllCollectionsData(data);
-      setTimeout(() => setLoading(false), 300)
-    };
+    (async () => {
+      const fetchData = async () => {
+        try {
+          const data = await fetchAllData(collectionNames);
+          setAllCollectionsData(data);
+          setTimeout(() => setLoading(false), 300);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
 
-    if (!allCollectionsData.length) {
-      fetchData();
-    }
+      if (Object.keys(allCollectionsData).length === 0) {
+        await fetchData();
+      }
+    })();
 
     const handleResize = _debounce(() => {
       setViewportWidth(window.innerWidth);
@@ -134,33 +124,35 @@ const DataDisplaySeeds: React.FC = () => {
     }, 50);
 
     const updateSticky = () => {
-      const stickyElement = document.querySelector('.data-tags-wrapper_mobile');
-      const dataDisplay = document.querySelector('.data-display');
+      const stickyElement = document.querySelector(
+        ".data-tags-wrapper_mobile"
+      ) as HTMLElement | null;
+      const dataDisplay = document.querySelector(".data-display") as HTMLElement | null;
+
       if (!stickyElement || !dataDisplay) return;
 
       if (originalPosition === undefined) {
         setOriginalPosition(stickyElement.offsetTop);
+      } else {
+        const isSticky = document.body.scrollTop >= originalPosition;
+
+        stickyElement.classList.toggle("sticky", isSticky);
+        dataDisplay.classList.toggle("offset", isSticky);
       }
 
-      if (document.body.scrollTop >= originalPosition) {
-        stickyElement.classList.add('sticky');
-        dataDisplay.classList.add('offset');
-      } else {
-        stickyElement.classList.remove('sticky');
-        dataDisplay.classList.remove('offset');
-      }
     };
 
+
     const menuElement = document.querySelector('.tag-menu_mobile');
-
-    if (isFilterMenuActive) {
-      // Disable body scroll while enabling scroll on the menu element
-      disableBodyScroll(menuElement);
-    } else {
-      // Enable body scroll and remove listeners on the menu element
-      enableBodyScroll(menuElement);
+    if(menuElement){
+      if (isFilterMenuActive) {
+        // Disable body scroll while enabling scroll on the menu element
+        disableBodyScroll(menuElement);
+      } else {
+        // Enable body scroll and remove listeners on the menu element
+        enableBodyScroll(menuElement);
+      }
     }
-
 
     if (typeof window !== 'undefined') {
       setViewportWidth(window.innerWidth);
@@ -202,41 +194,35 @@ const DataDisplaySeeds: React.FC = () => {
 
   // Function to render tags for each dropdown
   const renderTagsForDropdown = (dropdownName: string) => {
-    const selectedTags = dropdownData[dropdownName];
-    const selectedTagsForDropdown = {
+    const selectedTagsForDropdown: Record<string, string[]> = {
       dropdown1: selectedTagsForDropdown1,
       dropdown2: selectedTagsForDropdown2,
       dropdown3: selectedTagsForDropdown3,
       dropdown4: selectedTagsForDropdown4,
     };
 
-    return selectedTags.map((tag) => {
-      const englishTag = getEnglishCollectionName(tag);
-      return (
-        <label
-          key={tag}
-          className={`tag ${
-            selectedTagsForDropdown[dropdownName].includes(tag)
-              ? "active"
-              : ""
-          }`}
-          onClick={() => handleTagSelection(tag, dropdownName)}
-        >
-          <input
-            type="checkbox"
-            checked={selectedTagsForDropdown[dropdownName].includes(tag)}
-            onChange={() => handleTagSelection(tag, dropdownName)}
-          />
-          <span className="checkbox-custom"></span>
-          {tag}
-        </label>
-      );
-    });
+    return dropdownData[dropdownName].map((tag) => (
+      <label
+        key={tag}
+        className={`tag ${
+          selectedTagsForDropdown[dropdownName].includes(tag) ? "active" : ""
+        }`}
+        onClick={() => handleTagSelection(tag, dropdownName)}
+      >
+        <input
+          type="checkbox"
+          checked={selectedTagsForDropdown[dropdownName].includes(tag)}
+          onChange={() => handleTagSelection(tag, dropdownName)}
+        />
+        <span className="checkbox-custom"></span>
+        {tag}
+      </label>
+    ));
   };
+
 
   // Function to handle tag selection
   const handleTagSelection = (tag: string, dropdownName: string) => {
-    const englishTag = getEnglishCollectionName(tag);
 
     switch (dropdownName) {
       case "dropdown1":
@@ -281,24 +267,20 @@ const DataDisplaySeeds: React.FC = () => {
     }
   };
 
-  const renderDataForCollection = (collectionName: string, filteredData?: object) => {
+  const renderDataForCollection = (collectionName: string, filteredData?: Record<string, any>) => {
     let collectionData;
 
-    if(filteredData){
-      if(filteredData[collectionName]){
+    if (filteredData) {
+      if (filteredData[collectionName]) {
         collectionData = filteredData[collectionName];
       }
-    } else
+    } else {
       collectionData = allCollectionsData[collectionName];
+    }
     if (!collectionData) return null; // Handle the case when collectionData is not found
-    const cyrillicCategoryName = getCyrillicCollectionName(
-      collectionName,
-      cyrillicToEnglish
-    );
 
-
-    const groupedData = {};
-    collectionData.data.forEach((item) => {
+    const groupedData: Record<string, any[]> = {};
+    collectionData.data.forEach((item: any) => {
       const type = item.attributes.component.type;
       if (!groupedData[type]) {
         groupedData[type] = [];
@@ -306,7 +288,7 @@ const DataDisplaySeeds: React.FC = () => {
       groupedData[type].push(item);
     });
 
-    const getTypeHeaderText = (type) => {
+    const getTypeHeaderText = (type: string): string => {
       switch (type) {
         case "classic":
           return "Классическая технология";
@@ -328,7 +310,8 @@ const DataDisplaySeeds: React.FC = () => {
           return "no type";
       }
     };
-      if(groupedData)
+
+    if(groupedData)
       switch (collectionName) {
         case "syngenta-podsolnechniks":
           if(filteredData && !filteredData[collectionName].data.length)
@@ -352,13 +335,14 @@ const DataDisplaySeeds: React.FC = () => {
                               item.attributes.name
                             )}`,
                           }}
+                          key={index}
                         >
                           <div key={item.id} className="grid-item">
                             <div className="item-name">
                               <p>{item.attributes.component.name}</p>
                             </div>
-                            <div className="item-image">
-                              {collectionNames.some((name) =>
+                            <div className="item-img">
+                              {collectionNames.some(() =>
                                 collectionName.includes("kukuruza")
                               ) ? (
                                 <img src="/corn-icon.png" alt="Corn" />
@@ -467,13 +451,14 @@ const DataDisplaySeeds: React.FC = () => {
                               item.attributes.name
                             )}`,
                           }}
+                          key={index}
                         >
                           <div key={item.id} className="grid-item">
                             <div className="item-name">
                               <p>{item.attributes.component.name}</p>
                             </div>
-                            <div className="item-image">
-                              {collectionNames.some((name) =>
+                            <div className="item-img">
+                              {collectionNames.some(() =>
                                 collectionName.includes("kukuruza")
                               ) ? (
                                 <img src="/corn-icon.png" alt="Corn" />
@@ -581,13 +566,14 @@ const DataDisplaySeeds: React.FC = () => {
                               item.attributes.name
                             )}`,
                           }}
+                          key={index}
                         >
                           <div key={item.id} className="grid-item">
                             <div className="item-name">
                               <p>{item.attributes.component.name}</p>
                             </div>
-                            <div className="item-image">
-                              {collectionNames.some((name) =>
+                            <div className="item-img">
+                              {collectionNames.some(() =>
                                 collectionName.includes("kukuruza")
                               ) ? (
                                 <img src="/corn-icon.png" alt="Corn" />
@@ -696,13 +682,14 @@ const DataDisplaySeeds: React.FC = () => {
                               item.attributes.name
                             )}`,
                           }}
+                          key={index}
                         >
                           <div key={item.id} className="grid-item">
                             <div className="item-name">
                               <p>{item.attributes.component.name}</p>
                             </div>
-                            <div className="item-image">
-                              {collectionNames.some((name) =>
+                            <div className="item-img">
+                              {collectionNames.some(() =>
                                 collectionName.includes("kukuruza")
                               ) ? (
                                 <img src="/corn-icon.png" alt="Corn" />
@@ -799,13 +786,14 @@ const DataDisplaySeeds: React.FC = () => {
                               item.attributes.name
                             )}`,
                           }}
+                          key={index}
                         >
                           <div key={item.id} className="grid-item">
                             <div className="item-name">
                               <p>{item.attributes.component.name}</p>
                             </div>
-                            <div className="item-image">
-                              {collectionNames.some((name) =>
+                            <div className="item-img">
+                              {collectionNames.some(() =>
                                 collectionName.includes("kukuruza")
                               ) ? (
                                 <img src="/corn-icon.png" alt="Corn" />
@@ -923,13 +911,14 @@ const DataDisplaySeeds: React.FC = () => {
                               item.attributes.name
                             )}`,
                           }}
+                          key={index}
                         >
                           <div key={item.id} className="grid-item">
                             <div className="item-name">
                               <p>{item.attributes.component.name}</p>
                             </div>
-                            <div className="item-image">
-                              {collectionNames.some((name) =>
+                            <div className="item-img">
+                              {collectionNames.some(() =>
                                 collectionName.includes("kukuruza")
                               ) ? (
                                 <img src="/corn-icon.png" alt="Corn" />
@@ -1030,13 +1019,14 @@ const DataDisplaySeeds: React.FC = () => {
                               item.attributes.name
                             )}`,
                           }}
+                          key={index}
                         >
                           <div key={item.id} className="grid-item">
                             <div className="item-name">
                               <p>{item.attributes.component.name}</p>
                             </div>
-                            <div className="item-image">
-                              {collectionNames.some((name) =>
+                            <div className="item-img">
+                              {collectionNames.some(() =>
                                 collectionName.includes("kukuruza")
                               ) ? (
                                 <img src="/corn-icon.png" alt="Corn" />
@@ -1131,13 +1121,14 @@ const DataDisplaySeeds: React.FC = () => {
                               item.attributes.name
                             )}`,
                           }}
+                          key={index}
                         >
                           <div key={item.id} className="grid-item">
                             <div className="item-name">
                               <p>{item.attributes.component.name}</p>
                             </div>
-                            <div className="item-image">
-                              {collectionNames.some((name) =>
+                            <div className="item-img">
+                              {collectionNames.some(() =>
                                 collectionName.includes("kukuruza")
                               ) ? (
                                 <img src="/corn-icon.png" alt="Corn" />
@@ -1228,13 +1219,14 @@ const DataDisplaySeeds: React.FC = () => {
                               item.attributes.name
                             )}`,
                           }}
+                          key={index}
                         >
                           <div key={item.id} className="grid-item">
                             <div className="item-name">
                               <p>{item.attributes.component.name}</p>
                             </div>
-                            <div className="item-image">
-                              {collectionNames.some((name) =>
+                            <div className="item-img">
+                              {collectionNames.some(() =>
                                 collectionName.includes("kukuruza")
                               ) ? (
                                 <img src="/corn-icon.png" alt="Corn" />
@@ -1340,13 +1332,14 @@ const DataDisplaySeeds: React.FC = () => {
                               item.attributes.name
                             )}`,
                           }}
+                          key={index}
                         >
                           <div key={item.id} className="grid-item">
                             <div className="item-name">
                               <p>{item.attributes.component.name}</p>
                             </div>
-                            <div className="item-image">
-                              {collectionNames.some((name) =>
+                            <div className="item-img">
+                              {collectionNames.some(() =>
                                 collectionName.includes("kukuruza")
                               ) ? (
                                 <img src="/corn-icon.png" alt="Corn" />
@@ -1434,49 +1427,59 @@ const DataDisplaySeeds: React.FC = () => {
       ...selectedTagsForDropdown1,
       ...selectedTagsForDropdown2,
       ...selectedTagsForDropdown3,
-      ...selectedTagsForDropdown4
+      ...selectedTagsForDropdown4,
     ];
-    let filteredCollections = _.cloneDeep(allCollectionsData);
 
-    let renderedContent;
+    if (combinedSelectedTags.length === 0) {
+      return renderAllCollectionsData();
+    }
 
-    if (combinedSelectedTags.length > 0) {
-      Object.keys(filteredCollections).forEach(collectionName => {
-        filteredCollections[collectionName].data = filteredCollections[collectionName].data.filter(item => {
-          const itemGroup = item.attributes.component.group;
-          const itemCharacteristic = item.attributes.component.characteristic?.normalize();
-          const itemFAO = item.attributes.component.FAO;
-          const numbers = selectedTagsForDropdown2.map(string => {
-            const matches = string.match(/\d+/g);
-            return matches ? matches.map(Number) : [];
-          })
+    const filteredCollections = _.cloneDeep(allCollectionsData);
 
-          const groupCheck = selectedTagsForDropdown1.length ? combinedSelectedTags.includes(itemGroup) : true;
-          const faoCheck = selectedTagsForDropdown2.length ? selectedTagsForDropdown2.some(tag => {
+    Object.keys(filteredCollections).forEach((collectionName) => {
+      const { data: collectionData } = filteredCollections[collectionName];
+
+      filteredCollections[collectionName].data = collectionData.filter((item: Item) => {
+        const itemGroup = item.attributes.component.group;
+        const itemCharacteristic =
+          item.attributes.component.characteristic?.normalize();
+        const itemFAO = item.attributes.component.FAO;
+
+        const groupCheck =
+          selectedTagsForDropdown1.length === 0 || (itemGroup && combinedSelectedTags.includes(itemGroup));
+
+        const faoCheck =
+          selectedTagsForDropdown2.length === 0 ||
+          selectedTagsForDropdown2.some((tag) => {
             const match = tag.match(/(\d+)-(\d+)/);
             if (match) {
               const rangeStart = Number(match[1]);
               const rangeEnd = Number(match[2]);
-              return itemFAO >= rangeStart && itemFAO <= rangeEnd;
+              return itemFAO && itemFAO >= rangeStart && itemFAO <= rangeEnd;
             }
             return false;
-          }) : true;
-          const characteristicCheck = selectedTagsForDropdown3.length ? combinedSelectedTags.some(item => itemCharacteristic?.includes(item)) : true;
-          const producerCheck = selectedTagsForDropdown4.length ? combinedSelectedTags.some(item => collectionName.includes(item.toLowerCase())) : true;
+          });
+        const characteristicCheck =
+          selectedTagsForDropdown3.length === 0 ||
+          (itemCharacteristic &&
+            selectedTagsForDropdown3.some((item) =>
+              itemCharacteristic.includes(item)
+            ));
+        const producerCheck =
+          selectedTagsForDropdown4.length === 0 ||
+          combinedSelectedTags.some((item) =>
+            collectionName.includes(item.toLowerCase())
+          );
 
-          return  groupCheck && characteristicCheck && producerCheck && faoCheck;
-        });
+        return groupCheck && characteristicCheck && producerCheck && faoCheck;
       });
+    });
 
-      renderedContent = Object.keys(filteredCollections).map(collectionName => {
-        return renderDataForCollection(collectionName, filteredCollections);
-      });
-    } else {
-      renderedContent = renderAllCollectionsData();
-    }
-
-    return renderedContent;
+    return Object.keys(filteredCollections).map((collectionName) =>
+      renderDataForCollection(collectionName, filteredCollections)
+    );
   };
+
 
   return (
     loading ? <Loader loading={loading}/> : (<div className="data">
@@ -1508,33 +1511,12 @@ const DataDisplaySeeds: React.FC = () => {
 
             </div>
           </div>
-          <div className="data-tags">
-            <div className="data-tag">
-              <p>
-                Очень ранние
-              </p>
-            </div>
-            <div className="data-tag">
-              <p>
-                Раннеспелые
-              </p>
-            </div>
-            <div className="data-tag">
-              <p>
-                Среднеспелые
-              </p>
-            </div>
-          </div>
+
         </div>) : (
           <div className='data-tags-wrapper_mobile'>
             <div className="selector filter" onClick={() => setIsFilterMenuActive(true)}>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.26598 2.59428C2.80506 5.70256 7.49356 11.4631 7.49356 11.4631V18.6637C7.49356 19.3238 8.05919 19.8638 8.75053 19.8638H11.2645C11.9558 19.8638 12.5214 19.3238 12.5214 18.6637V11.4631C12.5214 11.4631 17.1974 5.70256 19.7364 2.59428C19.8805 2.41711 19.9696 2.20488 19.9935 1.98175C20.0174 1.75863 19.9752 1.53357 19.8717 1.33221C19.7682 1.13086 19.6076 0.961288 19.4081 0.842817C19.2087 0.724347 18.9784 0.661735 18.7434 0.662111H1.25899C0.215701 0.662111 -0.375075 1.80221 0.26598 2.59428Z" fill="#C2CCDA"/>
-              </svg>
-            </div>
-            <div className="selector tags">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3.5 5.46253C3.10218 5.46253 2.72064 5.31081 2.43934 5.04073C2.15804 4.77066 2 4.40435 2 4.02241C2 3.64046 2.15804 3.27416 2.43934 3.00408C2.72064 2.73401 3.10218 2.58228 3.5 2.58228C3.89782 2.58228 4.27936 2.73401 4.56066 3.00408C4.84196 3.27416 5 3.64046 5 4.02241C5 4.40435 4.84196 4.77066 4.56066 5.04073C4.27936 5.31081 3.89782 5.46253 3.5 5.46253ZM19.41 9.85972L10.41 1.21896C10.05 0.873328 9.55 0.662109 9 0.662109H2C0.89 0.662109 0 1.51659 0 2.58228V9.30288C0 9.83092 0.22 10.311 0.59 10.6566L9.58 19.2974C9.95 19.643 10.45 19.8638 11 19.8638C11.55 19.8638 12.05 19.643 12.41 19.2974L19.41 12.5768C19.78 12.2311 20 11.7511 20 11.223C20 10.6854 19.77 10.2054 19.41 9.85972Z" fill="#C2CCDA"/>
               </svg>
             </div>
           </div>

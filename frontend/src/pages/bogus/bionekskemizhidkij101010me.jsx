@@ -78,7 +78,7 @@ const bionekskemizhidkij101010me = () => {
       </ul>
       <strong>Производитель:</strong>{" "}
       <a href="https://berkanabio.ru/category/ooo-nvp-bashinkom/">
-        ООО “НВП БашИнком"
+        ООО &quot;НВП БашИнком&quot;
       </a>
       <strong>Упаковка:</strong> 10 л
     </div>

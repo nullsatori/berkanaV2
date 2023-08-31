@@ -9,7 +9,7 @@ const WIP = () => {
   return (
 
     <div className='wip'>
-      <p>страница находится в стадии разработки</p>
+      <p>раздел находится в стадии разработки</p>
       <p className='wip-back' onClick={handleGoBack}>← назад</p>
     </div>
   );

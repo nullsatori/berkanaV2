@@ -5,20 +5,21 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import Loader from "@/components/general/loader";
 
+
 const BackgroundSlider = () => {
   const [slide, setSlide] = useState(0);
   const [width, setWidth] = useState(0);
   const [loading, setLoading] = useState(true);
   const { outerWidth } = useWindowSize();
   const slideImages = [
-    "/first-slide.png",
-    "/second-slide.png",
-    "/third-slide.png",
-    "/fourth-slide.png",
-    "/first-slide-mobile.png",
-    "/second-slide-mobile.png",
-    "/third-slide-mobile.png",
-    "/fourth-slide-mobile.png",
+    "/first-slide.webp",
+    "/second-slide.webp",
+    "/third-slide.webp",
+    "/fourth-slide.webp",
+    "/first-slide-mobile.webp",
+    "/second-slide-mobile.webp",
+    "/third-slide-mobile.webp",
+    "/fourth-slide-mobile.webp",
   ];
   const slideText = [
     <motion.div
@@ -75,7 +76,7 @@ const BackgroundSlider = () => {
     >
       <div>
         <p>официальный</p>
-        <img src="/bash-logo.png" alt="bash-logo" />
+        <img src="/bash-logo.png" alt="bash-logo"/>
       </div>
       <p>представитель</p>
     </motion.div>,

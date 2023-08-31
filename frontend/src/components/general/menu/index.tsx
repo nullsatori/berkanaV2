@@ -1,28 +1,42 @@
-import React, {useEffect} from "react";
-import Image from "next/image";
+
+import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
-const Menu = ({ menuActive, setMenuActive }: any) => {
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks,
+} from "body-scroll-lock";
+
+interface MenuProps {
+  menuActive: boolean;
+  setMenuActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Menu: React.FC<MenuProps> = ({ menuActive, setMenuActive }) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Get a reference to the menu element with class 'fc-menu'
-    const menuElement = document.querySelector('.fc-menu');
-
-    if (menuActive) {
-      // Disable body scroll while enabling scroll on the menu element
-     disableBodyScroll(menuElement);
-    } else {
-      // Enable body scroll and remove listeners on the menu element
-     enableBodyScroll(menuElement);
+    const menuElement = document.querySelector(".fc-menu");
+    if(menuElement){
+      if (menuActive) {
+        disableBodyScroll(menuElement);
+      } else {
+        enableBodyScroll(menuElement);
+      }
     }
 
-    // Clear all scroll locks when the component unmounts
+
     return () => {
       clearAllBodyScrollLocks();
     };
   }, [menuActive]);
+
+  const handleMenuItemClick = (path: string) => {
+    router.push(path);
+    setMenuActive(false);
+  };
+
   return (
     <AnimatePresence>
       {menuActive && (
@@ -62,6 +76,7 @@ const Menu = ({ menuActive, setMenuActive }: any) => {
                 />
               </svg>
             </div>
+
             <div className="left">
               <div>
                 <p onClick={() => router.push("/wip")}>Средства защиты</p>
@@ -155,5 +170,4 @@ const Menu = ({ menuActive, setMenuActive }: any) => {
     </AnimatePresence>
   );
 };
-
 export default Menu;

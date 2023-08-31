@@ -1,9 +1,12 @@
 import React from "react";
 import {handleNavigation} from "@/utils/utils";
 import {useRouter} from "next/router";
+import Link from "next/link";
+import Image from "next/image";
 
-const Footer = () => {
+const Footer: React.FC = () => {
   const router = useRouter();
+
   return (
     <div className="footer">
       <div className="contact">
@@ -30,19 +33,35 @@ const Footer = () => {
               <p>inbox@berkana-bio.ru</p>
             </div>
             <div className="links">
-              <a onClick={() => handleNavigation('about', router)}>О компании</a>
-              <a onClick={() => handleNavigation('wip', router)}>Агропроект</a>
-              <a onClick={() => handleNavigation('wip', router)}>События</a>
-              <a onClick={() => handleNavigation('wip', router)}>Средства защиты</a>
-              <a onClick={() => handleNavigation('partners', router)}>Наши партнеры</a>
-              <a onClick={() => handleNavigation('seeds', router)}>Семена</a>
-              <a onClick={() => handleNavigation('contacts', router)}>Контакты</a>
-              <a onClick={() => handleNavigation('services', router)}>Услуги</a>
+              <Link href="/about" passHref>
+                <span onClick={() => handleNavigation('about', router)}>О компании</span>
+              </Link>
+              <Link href="/wip" passHref>
+                <span onClick={() => handleNavigation('wip', router)}>Агропроект</span>
+              </Link>
+              <Link href="/wip" passHref>
+                <span onClick={() => handleNavigation('wip', router)}>События</span>
+              </Link>
+              <Link href="/wip" passHref>
+                <span onClick={() => handleNavigation('wip', router)}>Средства защиты</span>
+              </Link>
+              <Link href="/partners" passHref>
+                <span onClick={() => handleNavigation('partners', router)}>Наши партнеры</span>
+              </Link>
+              <Link href="/seeds" passHref>
+                <span onClick={() => handleNavigation('seeds', router)}>Семена</span>
+              </Link>
+              <Link href="/contacts" passHref>
+                <span onClick={() => handleNavigation('contacts', router)}>Контакты</span>
+              </Link>
+              <Link href="/services" passHref>
+                <span onClick={() => handleNavigation('services', router)}>Услуги</span>
+              </Link>
             </div>
             <div className="bottom">
               <p>© 2012–2023 «Беркана»</p>
               <div className="social">
-                <a href="@/components/general/footer/index">
+                <a href="https://example.com" target="_blank" rel="noopener noreferrer">
                   <svg
                     width="24"
                     height="24"
@@ -56,7 +75,7 @@ const Footer = () => {
                     />
                   </svg>
                 </a>
-                <a href="@/components/general/footer/index">
+                <a href="https://example.com" target="_blank" rel="noopener noreferrer">
                   <svg
                     width="24"
                     height="24"
@@ -104,5 +123,4 @@ const Footer = () => {
     </div>
   );
 };
-
 export default Footer;

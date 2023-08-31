@@ -7,7 +7,7 @@ const PartnersBlock = () => {
         <img src="/lidea.svg" alt="logo" />
       </div>
       <div className="partner">
-        <img alt="logo" />
+        <img src="" alt="logo" />
       </div>
       <div className="partner">
         <img src="/eurochem.png" alt="logo" />

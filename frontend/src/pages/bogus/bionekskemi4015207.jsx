@@ -67,7 +67,7 @@ const bionekskemi4015207 = () => {
       для улучшения качества в фазе налива и формирования зерна.
       <strong>Производитель:</strong>{" "}
       <a href="https://berkanabio.ru/category/ooo-nvp-bashinkom/">
-        ООО “НВП БашИнком"
+        ООО &quot;НВП БашИнком&quot;
       </a>
       <strong>Упаковка:</strong> 20 кг
     </div>

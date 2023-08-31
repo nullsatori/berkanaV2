@@ -52,7 +52,7 @@ const bionekskemizhidkij2144me = () => {
       2-6 л/га
       <strong>Производитель:</strong>{" "}
       <a href="https://berkanabio.ru/category/ooo-nvp-bashinkom/">
-        ООО “НВП БашИнком"
+        ООО &quot;НВП БашИнком&quot;
       </a>
       <strong>Упаковка:</strong> 10 л
     </div>
