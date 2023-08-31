@@ -96,6 +96,7 @@ const Services = () => {
         <meta name="description" content="Услуги Berkana" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="preload" href="/logo.png" as="image" />
       </Head>
       <Layout logo={"white"}>
         <div

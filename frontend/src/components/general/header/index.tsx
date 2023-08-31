@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ setMenuActive, logo }) => {
   );
 
   const renderProjectLink = () => (
-    <Link href="/wip" className={`${styles["header-text"]} ${styles.project}`} >
+    <Link href="/wip" className={`${styles["header-text"]} ${styles.project} ${styles[`${logo}-links`]}`} >
       <p>АгроПроект</p>
     </Link>
   );

@@ -78,6 +78,7 @@ const Contacts: React.FC = () => {
         <meta name="description" content="Контакты Berkana" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="preload" href="/logo-yellow.png" as="image" />
       </Head>
       <Layout logo='yellow'>
         <HeadNav

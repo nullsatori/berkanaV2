@@ -16,6 +16,7 @@ export default function Seeds() {
         <meta name="description" content="Каталог семян Berkana" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="preload" href="/logo-blue.png" as="image" />
       </Head>
       <Layout logo={"blue"}>
         <HeadNav
