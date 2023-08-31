@@ -16,14 +16,6 @@ export default function Seeds() {
         <meta name="description" content="Каталог семян Berkana" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="preload" href="/first-slide.png" as="image" />
-        <link rel="preload" href="/second-slide.png" as="image" />
-        <link rel="preload" href="/third-slide.png" as="image" />
-        <link rel="preload" href="/fourth-slide.png" as="image" />
-        <link rel="preload" href="/first-slide-mobile.png" as="image" />
-        <link rel="preload" href="/second-slide-mobile.png" as="image" />
-        <link rel="preload" href="/third-slide-mobile.png" as="image" />
-        <link rel="preload" href="/fourth-slide-mobile.png" as="image" />
       </Head>
       <Layout logo={"blue"}>
         <HeadNav

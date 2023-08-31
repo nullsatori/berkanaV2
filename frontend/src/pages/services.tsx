@@ -7,12 +7,12 @@ import { useRouter } from "next/router";
 import {handleDotClick} from "@/utils/handleDotClick";
 import {useWindowSize} from "rooks";
 import {motion} from "framer-motion";
+import Loader from "@/components/general/loader";
 
 const Services = () => {
-  const router = useRouter();
   const [slide, setSlide] = useState(0);
-  const [width, setWidth] = useState(0);
-  const { outerWidth } = useWindowSize();
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
   const slideImages = [
     "/first-slide-services.png",
     "/second-slide-services.png",
@@ -68,16 +68,27 @@ const Services = () => {
       <p>при помощи пневмоходов</p>
     </motion.div>,
   ];
-
+  useEffect(() => {
+    slideImages.forEach((imageUrl) => {
+      const image = new Image();
+      image.src = imageUrl;
+      image.onload = handleImageLoad;
+    });
+  }, []);
   const handleClick = (number: number) => {
     handleDotClick(number);
     setSlide(number);
   };
+  const handleImageLoad = () => {
+    setImagesLoaded(true);
+  };
 
-  useEffect(() => {
-    if (outerWidth) setWidth(outerWidth);
-  }, [outerWidth]);
 
+
+  if (!imagesLoaded) {
+    // Render a placeholder until images are loaded
+    return <Loader loading={true} />;
+  }
   return (
     <>
       <Head>
@@ -85,10 +96,6 @@ const Services = () => {
         <meta name="description" content="Услуги Berkana" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="preload" href="/first-slide-services.png" as="image" />
-        <link rel="preload" href="/second-slide-services.png" as="image" />
-        <link rel="preload" href="/third-slide-services.png" as="image" />
-        <link rel="preload" href="/second-slide.png" as="image" />
       </Head>
       <Layout logo={"white"}>
         <div
