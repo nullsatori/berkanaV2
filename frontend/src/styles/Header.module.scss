@@ -9,7 +9,7 @@
   text-transform: uppercase;
   position: absolute;
   color: #f6f6f6;
-
+  z-index: 1;
   .white-links {
     color: #f6f6f6;
     transition: color 0.3s ease-in, border-bottom 0.3s ease-in;
@@ -54,7 +54,9 @@
   @media screen and (min-width: 769px) and (min-height: 769px) {
   }
   @media screen and (max-width: 768px), (orientation: portrait) {
-    width: fit-content;
+    display: flex;
+    width: calc(100vw - 60px);
+    justify-content: space-between;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -62,7 +64,7 @@
       height: 12px;
     }
     > a {
-      margin-right: 27vw;
+
     }
     .logo {
       max-height: 30px;
@@ -76,7 +78,9 @@
     }
   }
   @media screen and (min-width: 769px) and (max-width: 1270px) {
-    justify-content: center;
+    display: flex;
+    width: calc(100vw - 60px);
+    justify-content: space-between;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -105,7 +109,9 @@
     }
   }
   @media screen and (min-width: 1270px) and (max-width: 1366px) {
-    justify-content: center;
+    display: flex;
+    width: calc(100vw - 60px);
+    justify-content: space-between;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -135,9 +141,12 @@
     }
   }
   @media screen and (min-width: 1367px) {
-    width: calc(100vw - 120px);
-    left: 60px;
-    margin: 0px auto 0 auto;
+    display: flex;
+    width: calc(100vw - 200px);
+    justify-content: space-between;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     .wrapper {
       margin-left: auto;
       .phone {

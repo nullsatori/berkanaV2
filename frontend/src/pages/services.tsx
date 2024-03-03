@@ -8,6 +8,8 @@ import { handleDotClick } from "@/utils/handleDotClick";
 import { useWindowSize } from "rooks";
 import { motion } from "framer-motion";
 import Loader from "@/components/general/loader";
+import {Splide, SplideSlide} from "@splidejs/react-splide";
+import '@splidejs/react-splide/css';
 
 const Services = () => {
   const [slide, setSlide] = useState(0);
@@ -85,6 +87,37 @@ const Services = () => {
     // Render a placeholder until images are loaded
     return <Loader loading={true} />;
   }
+  const desktopOptions = {
+    perPage: 1,
+    perMove: 1,
+    focus: 'center',
+    pagination: true,
+    paginationDirection: 'ltr',
+    direction: 'ltr',
+    arrows: false,
+    height: '100vh',
+    speed: '750',
+    flickPower: 200,
+
+  };
+
+  // Define options for mobile
+  const mobileOptions = {
+    perPage: 1,
+    perMove: 1,
+    focus: 'center',
+    pagination: true,
+    paginationDirection: 'ltr',
+    direction: 'ltr',
+    arrows: false,
+    height: '100vh',
+    dragMinThreshold: 10,
+    // Add or adjust mobile-specific options here
+  };
+
+  const options = outerWidth > 769 ? desktopOptions : mobileOptions;
+
+
   return (
     <>
       <Head>
@@ -95,25 +128,22 @@ const Services = () => {
         <link rel="preload" href="/logo.png" as="image" />
       </Head>
       <Layout logo={"white"}>
-        <div
-          className="backgroundSlider servicesSlider"
-          style={{
-            background: `url(${slideImages[slide]})`,
-          }}
-        >
-          <div className="wrapper">
-            {slideText[slide]}
-            <div className="buttons">
-              <span
-                className="dot active"
-                onClick={() => handleClick(0)}
-              ></span>
-              <span className="dot" onClick={() => handleClick(1)}></span>
-              <span className="dot" onClick={() => handleClick(2)}></span>
-              <span className="dot" onClick={() => handleClick(3)}></span>
-            </div>
-          </div>
-        </div>
+        <Splide options={options} className='secondary-carousel'>
+          {slideImages.map((image, index) => (
+            <SplideSlide key={index}>
+              <div
+                className="backgroundSlider servicesSlider"
+                style={{
+                  background: `no-repeat center/100% url(${image})`,
+                }}
+              >
+                <div className="wrapper">
+                  {slideText[index]}
+                </div>
+              </div>
+            </SplideSlide>
+          ))}
+        </Splide>
       </Layout>
     </>
   );

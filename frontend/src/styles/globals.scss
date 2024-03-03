@@ -22,12 +22,29 @@ $large-screen: 1366px;
   }
 }
 
+.main-carousel{
+  .splide__pagination--ltr{
+    bottom: 40px;
+  }
+  .splide__pagination--ttb{
+    top: 30vh;
+    right: 60px;
+  }
+}
+
+.secondary-carousel{
+  .splide__pagination--ltr{
+    bottom: 40px;
+  }
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   font-family: Inter, sans-serif;
   text-underline-offset: 3px;
+
 }
 
 .loader {

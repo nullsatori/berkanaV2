@@ -4,17 +4,20 @@ import { useWindowSize } from "rooks";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import Loader from "@/components/general/loader";
+import {Splide, SplideSlide} from "@splidejs/react-splide";
+import '@splidejs/react-splide/css';
 
 const BackgroundSlider = () => {
   const [slide, setSlide] = useState(0);
   const [width, setWidth] = useState(0);
   const [loading, setLoading] = useState(true);
   const { outerWidth } = useWindowSize();
-  const slideImages = [
+  const slideImages = outerWidth > 769 ? [
     "/first-slide.webp",
     "/second-slide.webp",
     "/third-slide.webp",
     "/fourth-slide.webp",
+  ] : [
     "/first-slide-mobile.webp",
     "/second-slide-mobile.webp",
     "/third-slide-mobile.webp",
@@ -97,50 +100,73 @@ const BackgroundSlider = () => {
 
   const router = useRouter();
 
+  const desktopOptions = {
+    perPage: 1,
+    perMove: 1,
+    focus: 'center',
+    pagination: true,
+    paginationDirection: 'ttb',
+    direction: 'ttb',
+    arrows: false,
+    height: '100vh',
+
+    speed: '750',
+    flickPower: 200,
+  };
+
+  // Define options for mobile
+  const mobileOptions = {
+    perPage: 1,
+    perMove: 1,
+    focus: 'center',
+    pagination: true,
+    paginationDirection: 'ltr',
+    direction: 'ltr',
+    arrows: false,
+    height: '100vh',
+    dragMinThreshold: 10
+    // Add or adjust mobile-specific options here
+  };
+
+  const options = outerWidth > 769 ? desktopOptions : mobileOptions;
+
   return loading ? (
     <Loader loading={loading} />
   ) : (
-    <div
-      className="backgroundSlider"
-      style={
-        width > 769 || width === 0
-          ? {
-              background: ` no-repeat center url(${slideImages[slide]})`,
-            }
-          : {
-              background: ` no-repeat center url(${slideImages[slide + 4]})`,
-            }
-      }
-    >
-      <div className="wrapper">
-        {slideText[slide]}
-        <div className="buttons">
-          <span className="dot active" onClick={() => handleClick(0)}></span>
-          <span className="dot" onClick={() => handleClick(1)}></span>
-          <span className="dot" onClick={() => handleClick(2)}></span>
-          <span className="dot" onClick={() => handleClick(3)}></span>
-        </div>
-      </div>
-
-      <div className="slider-footer">
-        <p className="copyright">© 2012–2023 «Беркана»</p>
-        <div className="temp">
-          <p onClick={() => router.push("/about")}>О компании</p>
-          <p onClick={() => router.push("/partners")}>Партнёры</p>
-          <p onClick={() => router.push("/contacts")}>Контакты</p>
-        </div>
-        <div className="info">
-          <p>
-            Поддержка сайта
-            <span>maxpryadkin.ru</span>
-          </p>
-          <p>
-            Дизайн
-            <span>Никита Рыжков</span>
-          </p>
-        </div>
-      </div>
-    </div>
+    <Splide options={options} className="main-carousel">
+      {slideImages.map((image, index) => (
+        <SplideSlide key={index}>
+          <div
+            className="backgroundSlider"
+            style={{
+              background: `no-repeat center/100% url(${image})`,
+            }}
+          >
+            <div className="wrapper">
+              {slideText[index]}
+            </div>
+            <div className="slider-footer">
+              <p className="copyright">© 2012–2024 «Беркана»</p>
+              <div className="temp">
+                <p onClick={() => router.push("/about")}>О компании</p>
+                <p onClick={() => router.push("/partners")}>Партнёры</p>
+                <p onClick={() => router.push("/contacts")}>Контакты</p>
+              </div>
+              <div className="info">
+                <p>
+                  Поддержка сайта
+                  <span>maxpryadkin.ru</span>
+                </p>
+                <p>
+                  Дизайн
+                  <span>Никита Рыжков</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </SplideSlide>
+      ))}
+    </Splide>
   );
 };
 
