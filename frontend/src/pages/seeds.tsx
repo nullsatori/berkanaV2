@@ -19,11 +19,7 @@ export default function Seeds() {
         <link rel="preload" href="/logo-blue.png" as="image" />
       </Head>
       <Layout logo={"blue"}>
-        <HeadNav
-          pageName={"семена"}
-          subPageFlag={true}
-          style='yellow'
-        />
+        <HeadNav pageName={"семена"} subPageFlag={true} style="yellow" />
         <div className="szr">
           <DataDisplaySeeds />
         </div>

@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "@/components/general/layout";
 import Head from "next/head";
 import HeadNav from "../components/general/head-nav";
 import Blocks from "@/components/services/blocks";
 import { useRouter } from "next/router";
-import {handleDotClick} from "@/utils/handleDotClick";
-import {useWindowSize} from "rooks";
-import {motion} from "framer-motion";
+import { handleDotClick } from "@/utils/handleDotClick";
+import { useWindowSize } from "rooks";
+import { motion } from "framer-motion";
 import Loader from "@/components/general/loader";
 
 const Services = () => {
@@ -38,7 +38,6 @@ const Services = () => {
     >
       <div>
         <p>своевременная доставка товара</p>
-
       </div>
       <p>собственным транспортом</p>
     </motion.div>,
@@ -51,7 +50,6 @@ const Services = () => {
     >
       <div>
         <p>зимнее хранение СЗР</p>
-
       </div>
       <p>химическая прополка и подкормка</p>
     </motion.div>,
@@ -83,8 +81,6 @@ const Services = () => {
     setImagesLoaded(true);
   };
 
-
-
   if (!imagesLoaded) {
     // Render a placeholder until images are loaded
     return <Loader loading={true} />;
@@ -108,16 +104,16 @@ const Services = () => {
           <div className="wrapper">
             {slideText[slide]}
             <div className="buttons">
-              <span className="dot active" onClick={() => handleClick(0)}></span>
+              <span
+                className="dot active"
+                onClick={() => handleClick(0)}
+              ></span>
               <span className="dot" onClick={() => handleClick(1)}></span>
               <span className="dot" onClick={() => handleClick(2)}></span>
               <span className="dot" onClick={() => handleClick(3)}></span>
             </div>
           </div>
-
-
         </div>
-
       </Layout>
     </>
   );

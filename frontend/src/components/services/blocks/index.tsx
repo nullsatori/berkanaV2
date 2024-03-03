@@ -63,5 +63,3 @@ const Blocks = () => {
 };
 
 export default Blocks;
-
-

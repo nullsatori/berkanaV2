@@ -1,7 +1,11 @@
-import React, { useEffect } from 'react';
-import { TailSpin } from 'react-loader-spinner';
-import { motion } from 'framer-motion';
-import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+import React, { useEffect } from "react";
+import { TailSpin } from "react-loader-spinner";
+import { motion } from "framer-motion";
+import {
+  disableBodyScroll,
+  enableBodyScroll,
+  clearAllBodyScrollLocks,
+} from "body-scroll-lock";
 
 interface LoaderProps {
   loading: boolean;
@@ -9,7 +13,7 @@ interface LoaderProps {
 
 const Loader: React.FC<LoaderProps> = ({ loading }) => {
   useEffect(() => {
-    const menuElement = document.querySelector('.loader');
+    const menuElement = document.querySelector(".loader");
 
     if (menuElement) {
       if (loading) {

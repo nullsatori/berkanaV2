@@ -38,7 +38,9 @@ export const getCyrillicCollectionName = (
 export const transliterateRussianToEnglish = (text: string): string => {
   const cleanedText = text.replace(/\(.*?®.*?\)/g, "").replace(/®|%20/g, "");
   const transliteratedText = translit(cleanedText);
-  const cleanedTransliteratedText = transliteratedText.replace(/\s/g, "").toLowerCase();
+  const cleanedTransliteratedText = transliteratedText
+    .replace(/\s/g, "")
+    .toLowerCase();
   return cleanedTransliteratedText;
 };
 

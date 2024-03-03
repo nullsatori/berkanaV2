@@ -6,7 +6,7 @@ import styles from "@/styles/Header.module.scss";
 interface HeaderProps {
   setMenuActive: (active: boolean) => void;
   logo: "blue" | "yellow" | "white" | undefined;
-  style: string | undefined
+  style: string | undefined;
 }
 
 const Header: React.FC<HeaderProps> = ({ setMenuActive, logo }) => {
@@ -16,12 +16,16 @@ const Header: React.FC<HeaderProps> = ({ setMenuActive, logo }) => {
     return router.pathname === href;
   };
 
-  const renderNavLink = (text: string, href: string, additionalStyles: string = "") => (
+  const renderNavLink = (
+    text: string,
+    href: string,
+    additionalStyles: string = ""
+  ) => (
     <Link href={href}>
       <p
-        className={`${styles["header-text"]} ${isActiveLink(href) ? styles.active : ""} ${
-          styles[`${logo}-links`]
-        } ${additionalStyles}`}
+        className={`${styles["header-text"]} ${
+          isActiveLink(href) ? styles.active : ""
+        } ${styles[`${logo}-links`]} ${additionalStyles}`}
       >
         {text}
       </p>
@@ -29,13 +33,18 @@ const Header: React.FC<HeaderProps> = ({ setMenuActive, logo }) => {
   );
 
   const renderProjectLink = () => (
-    <Link href="/wip" className={`${styles["header-text"]} ${styles.project} ${styles[`${logo}-links`]}`} >
+    <Link
+      href="/wip"
+      className={`${styles["header-text"]} ${styles.project} ${
+        styles[`${logo}-links`]
+      }`}
+    >
       <p>АгроПроект</p>
     </Link>
   );
 
   return (
-    <div className={styles.header} >
+    <div className={styles.header}>
       <Link href="/">
         <img src={`/${getLogoPath(logo)}`} alt="logo" className={styles.logo} />
       </Link>
@@ -47,7 +56,9 @@ const Header: React.FC<HeaderProps> = ({ setMenuActive, logo }) => {
         </div>
         {renderProjectLink()}
         <p
-          className={`${styles["header-text"]} ${styles.phone} ${styles[`${logo}-links`]}`}
+          className={`${styles["header-text"]} ${styles.phone} ${
+            styles[`${logo}-links`]
+          }`}
         >
           +7 437 300 39 14
         </p>

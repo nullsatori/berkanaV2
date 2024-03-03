@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
@@ -18,14 +17,13 @@ const Menu: React.FC<MenuProps> = ({ menuActive, setMenuActive }) => {
 
   useEffect(() => {
     const menuElement = document.querySelector(".fc-menu");
-    if(menuElement){
+    if (menuElement) {
       if (menuActive) {
         disableBodyScroll(menuElement);
       } else {
         enableBodyScroll(menuElement);
       }
     }
-
 
     return () => {
       clearAllBodyScrollLocks();
@@ -82,9 +80,7 @@ const Menu: React.FC<MenuProps> = ({ menuActive, setMenuActive }) => {
                 <p onClick={() => router.push("/wip")}>Средства защиты</p>
                 <p onClick={() => router.push("/seeds")}>Семена</p>
                 <p onClick={() => router.push("/services")}>Услуги</p>
-                <p onClick={() => router.push("/wip")}>
-                  События
-                </p>
+                <p onClick={() => router.push("/wip")}>События</p>
               </div>
               <div>
                 <p onClick={() => router.push("/about")}>О компании</p>

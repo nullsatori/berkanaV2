@@ -1,5 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 $secondary: #de00f8;
+$small-screen: 768px;
+$medium-screen: 951px;
+$large-screen: 1366px;
+
+@mixin small-screen {
+  @media (max-width: $small-screen) {
+    @content;
+  }
+}
+
+@mixin medium-screen {
+  @media (min-width: $small-screen + 1) and (max-width: $medium-screen) {
+    @content;
+  }
+}
+
+@mixin large-screen {
+  @media (min-width: $medium-screen + 1) {
+    @content;
+  }
+}
 
 * {
   box-sizing: border-box;
@@ -9,7 +30,7 @@ $secondary: #de00f8;
   text-underline-offset: 3px;
 }
 
-.loader{
+.loader {
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -22,7 +43,7 @@ $secondary: #de00f8;
   justify-content: center;
   top: 0;
 }
-.wip{
+.wip {
   font-size: 2rem;
   display: flex;
   align-items: center;
@@ -32,7 +53,7 @@ $secondary: #de00f8;
   width: 100vw;
   color: #bdbdbd;
   text-align: center;
-  .wip-back{
+  .wip-back {
     color: white;
     font-size: 1.5rem;
   }
@@ -64,7 +85,7 @@ $secondary: #de00f8;
 html,
 body {
   background: #1e1e1e;
-  height:100%;
+  height: 100%;
   overflow-x: hidden;
 }
 

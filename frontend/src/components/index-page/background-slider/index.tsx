@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import Loader from "@/components/general/loader";
 
-
 const BackgroundSlider = () => {
   const [slide, setSlide] = useState(0);
   const [width, setWidth] = useState(0);
@@ -76,7 +75,7 @@ const BackgroundSlider = () => {
     >
       <div>
         <p>официальный</p>
-        <img src="/bash-logo.png" alt="bash-logo"/>
+        <img src="/bash-logo.png" alt="bash-logo" />
       </div>
       <p>представитель</p>
     </motion.div>,
@@ -88,58 +87,60 @@ const BackgroundSlider = () => {
   };
 
   useEffect(() => {
-    if (outerWidth)
-    {
+    if (outerWidth) {
       setWidth(outerWidth);
-      setTimeout(() => {setLoading(false);}, 300)
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
     }
   }, [outerWidth]);
 
   const router = useRouter();
 
-  return (
-    loading ? <Loader loading={loading}/> : (
-      <div
-        className="backgroundSlider"
-        style={
-          width > 769 || width === 0
-            ? {
+  return loading ? (
+    <Loader loading={loading} />
+  ) : (
+    <div
+      className="backgroundSlider"
+      style={
+        width > 769 || width === 0
+          ? {
               background: ` no-repeat center url(${slideImages[slide]})`,
             }
-            : {
+          : {
               background: ` no-repeat center url(${slideImages[slide + 4]})`,
             }
-        }
-      >
-        <div className="wrapper">
-          {slideText[slide]}
-          <div className="buttons">
-            <span className="dot active" onClick={() => handleClick(0)}></span>
-            <span className="dot" onClick={() => handleClick(1)}></span>
-            <span className="dot" onClick={() => handleClick(2)}></span>
-            <span className="dot" onClick={() => handleClick(3)}></span>
-          </div>
+      }
+    >
+      <div className="wrapper">
+        {slideText[slide]}
+        <div className="buttons">
+          <span className="dot active" onClick={() => handleClick(0)}></span>
+          <span className="dot" onClick={() => handleClick(1)}></span>
+          <span className="dot" onClick={() => handleClick(2)}></span>
+          <span className="dot" onClick={() => handleClick(3)}></span>
         </div>
+      </div>
 
-        <div className="slider-footer">
-          <p className="copyright">© 2012–2023 «Беркана»</p>
-          <div className="temp">
-            <p onClick={() => router.push("/about")}>О компании</p>
-            <p onClick={() => router.push("/partners")}>Партнёры</p>
-            <p onClick={() => router.push("/contacts")}>Контакты</p>
-          </div>
-          <div className="info">
-            <p>
-              Поддержка сайта
-              <span>maxpryadkin.ru</span>
-            </p>
-            <p>
-              Дизайн
-              <span>Никита Рыжков</span>
-            </p>
-          </div>
+      <div className="slider-footer">
+        <p className="copyright">© 2012–2023 «Беркана»</p>
+        <div className="temp">
+          <p onClick={() => router.push("/about")}>О компании</p>
+          <p onClick={() => router.push("/partners")}>Партнёры</p>
+          <p onClick={() => router.push("/contacts")}>Контакты</p>
         </div>
-      </div>)
+        <div className="info">
+          <p>
+            Поддержка сайта
+            <span>maxpryadkin.ru</span>
+          </p>
+          <p>
+            Дизайн
+            <span>Никита Рыжков</span>
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 
