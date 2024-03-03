@@ -9,10 +9,17 @@ import AgroVideo from "@/components/index-page/agro-video";
 import Layout from "@/components/general/layout";
 import Events from "@/components/index-page/events";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const scrolltoHash = function (element_id: string) {
+    const element = document.getElementById(element_id);
+    element?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
+  };
   return (
     <>
       <Head>
@@ -26,7 +33,6 @@ export default function Home() {
         <About />
         <Video />
         <Prices />
-        <Events />
         <AgroVideo />
         <PartnersBlock />
       </Layout>

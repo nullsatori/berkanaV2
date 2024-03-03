@@ -3,46 +3,51 @@
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: cover !important;
-  &.servicesSlider{
+  &.servicesSlider {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    .services-slide{
+    .services-slide {
       overflow-wrap: break-word;
       padding: 0;
     }
-    .wrapper{
+    .wrapper {
       position: static;
-      .buttons{
-
-        @media screen and (width > 1025px){
+      @media screen and (width > 1025px) {
+        .buttons {
           position: absolute;
-          right: 50%;
-          left: 50%;
+          left: 0;
+          right: 0;
+
+          margin: 0 auto;
         }
+      }
+      .buttons {
         flex-direction: row;
         width: fit-content;
-        .dot{
+        .dot {
           margin: 0 3px;
         }
       }
     }
   }
 
-  @media (width <= 300px)
-  {
-
+  @media (width <= 300px) {
     .firstSlide,
     .secondSlide,
     .thirdSlide,
     .fourthSlide {
       padding-top: 50vh;
-      &.services-slide{
-        p{
+      &.services-slide {
+        p {
           text-align: center;
-
           font-size: 25px;
+        }
+      }
+      &.partners-slide {
+        p {
+          font-size: 38px;
         }
       }
       p {
@@ -81,12 +86,19 @@
     .thirdSlide,
     .fourthSlide {
       padding-top: 50vh;
-      &.services-slide{
-        p{
+
+      &.services-slide {
+        p {
           font-size: 28px;
           text-align: center;
         }
       }
+      &.partners-slide {
+        p {
+          font-size: 43px;
+        }
+      }
+
       p {
         font-size: 43px;
       }
@@ -101,10 +113,15 @@
     .secondSlide,
     .thirdSlide,
     .fourthSlide {
-      &.services-slide{
-        p{
+      &.services-slide {
+        p {
           font-size: 36px;
           text-align: center;
+        }
+      }
+      &.partners-slide {
+        p {
+          font-size: 53px;
         }
       }
       padding-top: 50vh;
@@ -156,8 +173,8 @@
     .thirdSlide,
     .fourthSlide {
       padding-top: 30vh;
-      &.services-slide{
-        p{
+      &.services-slide {
+        p {
           font-size: 65px;
           text-align: center;
         }
@@ -172,8 +189,13 @@
     .secondSlide,
     .thirdSlide,
     .fourthSlide {
-      &.services-slide{
-        p{
+      &.partners-slide {
+        p {
+          font-size: 100px;
+        }
+      }
+      &.services-slide {
+        p {
           font-size: 65px;
           text-align: center;
         }
@@ -189,8 +211,8 @@
     .secondSlide,
     .thirdSlide,
     .fourthSlide {
-      &.services-slide{
-        p{
+      &.services-slide {
+        p {
           font-size: 55px;
           text-align: center;
         }
@@ -203,6 +225,11 @@
   }
 
   @media (width > 769px) {
+    &.partnersSlider {
+      .buttons {
+        bottom: -8.5vh;
+      }
+    }
     .buttons {
       flex-direction: column;
       width: 8px;
@@ -216,6 +243,14 @@
   @media (width <= 1025px), (orientation: portrait) {
     .wrapper {
       margin: 0 auto;
+    }
+    &.partnersSlider {
+      position: relative;
+      .buttons {
+        position: absolute;
+        top: 80%;
+        bottom: 0;
+      }
     }
     .buttons {
       flex-direction: row;
@@ -293,7 +328,7 @@
     .secondSlide,
     .thirdSlide,
     .fourthSlide {
-      &.services-slide{
+      &.services-slide {
         font-size: 65px;
       }
       font-size: 110px;
@@ -319,7 +354,7 @@
     .secondSlide,
     .thirdSlide,
     .fourthSlide {
-      &.services-slide{
+      &.services-slide {
         font-size: 85px;
       }
       font-size: 140px;

@@ -1,24 +1,24 @@
-import React, { useEffect, useRef } from 'react';
-import Layout from '@/components/general/layout';
-import Head from 'next/head';
-import HeadNav from '@/components/general/head-nav';
-import 'ol/ol.css';
-import { Feature, Map, Overlay, View } from 'ol';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
-import { fromLonLat } from 'ol/proj';
-import { MapOptions } from 'ol/Map';
-import VectorSource from 'ol/source/Vector';
-import VectorLayer from 'ol/layer/Vector';
-import { Icon, Style } from 'ol/style';
-import { Point } from 'ol/geom';
+import React, { useEffect, useRef } from "react";
+import Layout from "@/components/general/layout";
+import Head from "next/head";
+import HeadNav from "@/components/general/head-nav";
+import "ol/ol.css";
+import { Feature, Map, Overlay, View } from "ol";
+import TileLayer from "ol/layer/Tile";
+import OSM from "ol/source/OSM";
+import { fromLonLat } from "ol/proj";
+import { MapOptions } from "ol/Map";
+import VectorSource from "ol/source/Vector";
+import VectorLayer from "ol/layer/Vector";
+import { Icon, Style } from "ol/style";
+import { Point } from "ol/geom";
 
 const Contacts: React.FC = () => {
   const mapRef = useRef<Map | null>(null);
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
 
   const locations: { name: string; coords: [number, number] }[] = [
-    { name: 'Voronezh', coords: [39.214768, 51.678035] },
+    { name: "Voronezh", coords: [39.214768, 51.678035] },
     // Add more locations here
   ];
 
@@ -42,7 +42,7 @@ const Contacts: React.FC = () => {
       const pinStyle = new Style({
         image: new Icon({
           anchor: [0.5, 1],
-          src: '/pin.png',
+          src: "/pin.png",
         }),
       });
 
@@ -67,7 +67,7 @@ const Contacts: React.FC = () => {
       view.setCenter(fromLonLat(coords));
       view.setZoom(17);
       mapContainerRef.current?.scrollIntoView({
-        behavior: 'smooth', // You can adjust the scrolling behavior as needed
+        behavior: "smooth", // You can adjust the scrolling behavior as needed
       });
     }
   };
@@ -80,15 +80,15 @@ const Contacts: React.FC = () => {
         <link rel="icon" href="/favicon.ico" />
         <link rel="preload" href="/logo-yellow.png" as="image" />
       </Head>
-      <Layout logo='yellow'>
-        <HeadNav
-          pageName={"контакты"}
-          subPageFlag={true}
-          style='blue'
-
-        />
+      <Layout logo="yellow">
+        <HeadNav pageName={"контакты"} subPageFlag={true} style="blue" />
         <div className="contacts">
-          <div id="map" className="map-container" ref={mapContainerRef} style={{ width: "100%", height: "600px" }}></div>
+          <div
+            id="map"
+            className="map-container"
+            ref={mapContainerRef}
+            style={{ width: "100%", height: "600px", maxHeight: "60vh" }}
+          ></div>
           <div className="info">
             <div className="info-head">
               <div className="block">
@@ -123,7 +123,9 @@ const Contacts: React.FC = () => {
                   </svg>
                   <p>Воронеж</p>
                 </div>
-                <p onClick={handleShowOnMapClick(locations[0].coords)}>Показать на карте</p>
+                <p onClick={handleShowOnMapClick(locations[0].coords)}>
+                  Показать на карте
+                </p>
               </div>
               <div className="table-row">
                 <div>

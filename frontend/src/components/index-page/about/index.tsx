@@ -2,8 +2,8 @@ import React, { useCallback } from "react";
 import Carousel from "nuka-carousel";
 import useEmblaCarousel, { EmblaOptionsType } from "embla-carousel-react";
 import EmblaCarousel from "../embla-carousel";
-import {useRouter} from "next/router";
-import {handleNavigation} from "@/utils/utils";
+import { useRouter } from "next/router";
+import { handleNavigation } from "@/utils/utils";
 import Image from "next/image";
 
 const About = () => {
@@ -61,7 +61,10 @@ const About = () => {
             <img src="/slide-0.png" alt="" />
             <p className="underscored">Партнеры</p>
           </div>
-          <div className="btn" onClick={() => handleNavigation('about', router)}>
+          <div
+            className="btn"
+            onClick={() => handleNavigation("about", router)}
+          >
             Узнать больше
             <svg
               width="11"
@@ -87,9 +90,13 @@ const About = () => {
                 <div className="info">
                   <h1>Кукуруза</h1>
                   <p>
-                    Оптимальным вариантом на наш взгляд являются специально
-                    выведенные гибридные сорта. Они более устойчивы к изменениям
-                    погодных условий, быстрее растут и дают лучше урожай.
+                    Кукуруза – уникальная сельскохозяйственная культура, по
+                    посевной площади занимает третье место в мире после пшеницы
+                    и риса. Кукуруза выращивается в более чем 25 странах, ее
+                    особенность – в разностороннем использовании зерна и
+                    листостебельной массы. Это культура высокой продуктивности,
+                    зерно используется на продовольственные, кормовые и
+                    технические цели.
                   </p>
                   <div className="btn">
                     ПОДРОБНЕЕ
@@ -108,7 +115,7 @@ const About = () => {
                   </div>
                 </div>
                 <div className="image">
-                  <img src="/corn-modified.png" alt=""/>
+                  <img src="/corn-modified.png" alt="" />
                   <img src="/syngenta.png" alt="logo" />
                 </div>
               </div>
